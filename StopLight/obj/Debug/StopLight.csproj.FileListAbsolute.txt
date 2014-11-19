@@ -8,3 +8,4 @@ c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\De
 c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.Properties.Resources.resources
 c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.csproj.GenerateResource.Cache
 C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\StopLight\bin\Debug\StopLight.exe.config
+C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\bin\Debug\StopLight.exe.config
