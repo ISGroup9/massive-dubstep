@@ -24,6 +24,11 @@ namespace StopLight
         int iLeftRight;
         public MainWindow()
         {
+
+            SolidColorBrush red = new SolidColorBrush(Colors.Red);
+            SolidColorBrush green = new SolidColorBrush(Colors.Green);
+            SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
+            SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
             InitializeComponent();
 
             
@@ -52,6 +57,11 @@ namespace StopLight
 
                 //put your code here
                 }
+
+            private void btnleft_Click(object sender, RoutedEventArgs e)
+            {
+
+            }
         }
     }
 
