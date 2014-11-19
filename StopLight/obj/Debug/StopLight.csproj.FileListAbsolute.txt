@@ -1,0 +1,10 @@
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\bin\Debug\StopLight.exe.config
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.csprojResolveAssemblyReference.cache
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\App.g.cs
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight_MarkupCompile.cache
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\MainWindow.baml
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\MainWindow.g.cs
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.g.resources
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.Properties.Resources.resources
+c:\users\landon\documents\visual studio 2013\Projects\StopLight\StopLight\obj\Debug\StopLight.csproj.GenerateResource.Cache
+C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\StopLight\bin\Debug\StopLight.exe.config
