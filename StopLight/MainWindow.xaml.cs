@@ -60,33 +60,17 @@ namespace StopLight
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            /*SolidColorBrush red = new SolidColorBrush(Colors.Red);
-            SolidColorBrush green = new SolidColorBrush(Colors.Green);
-            SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
-            SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);*/
+   
 
             if (currentState == state.EASTWESTSTOP)
             {
                 Debug.Write(DateTime.Now);
                 Debug.Write(": ");
                 Debug.WriteLine(currentState);
+
+
+
                 NorthSouthGo();
-               /* LeftGreen.Fill = gray;
-                LeftYellow.Fill = gray;
-                LeftRed.Fill = red;
-
-                RightGreen.Fill = gray;
-                RightYellow.Fill = gray;
-                RightRed.Fill = red;
-
-                TopGreen.Fill = green;
-                TopYellow.Fill = gray;
-                TopRed.Fill = gray;
-
-                BottomGreen.Fill = green;
-                BottomYellow.Fill = gray;
-                BottomRed.Fill = gray;*/
-
                 currentState = state.NORTHSOUTHGO;
             }
             else if (currentState == state.NORTHSOUTHGO)
@@ -94,23 +78,11 @@ namespace StopLight
                 Debug.Write(DateTime.Now);
                 Debug.Write(": ");
                 Debug.WriteLine(currentState);
+
+
+
+
                 NorthSouthStop();
-                /*LeftGreen.Fill = gray;
-                LeftYellow.Fill = gray;
-                LeftRed.Fill = red;
-
-                RightGreen.Fill = gray;
-                RightYellow.Fill = gray;
-                RightRed.Fill = red;
-
-                TopGreen.Fill = gray;
-                TopYellow.Fill = yellow;
-                TopRed.Fill = gray;
-
-                BottomGreen.Fill = gray;
-                BottomYellow.Fill = yellow;
-                BottomRed.Fill = gray;*/
-
                 currentState = state.NORTHSOUTHSTOP;
             }
             else if (currentState == state.NORTHSOUTHSTOP)
@@ -119,21 +91,7 @@ namespace StopLight
                 Debug.Write(": ");
                 Debug.WriteLine(currentState);
                 WestEastGo();
-                /*LeftGreen.Fill = green;
-                LeftYellow.Fill = gray;
-                LeftRed.Fill = gray;
-
-                RightGreen.Fill = green;
-                RightYellow.Fill = gray;
-                RightRed.Fill = gray;
-
-                TopGreen.Fill = gray;
-                TopYellow.Fill = gray;
-                TopRed.Fill = red;
-
-                BottomGreen.Fill = gray;
-                BottomYellow.Fill = gray;
-                BottomRed.Fill = red;*/
+               
 
                 currentState = state.EASTWESTGO;
             }
@@ -143,20 +101,7 @@ namespace StopLight
                 Debug.Write(": State:");
                 Debug.WriteLine(currentState);
                 WestEastStop();
-                /*LeftGreen.Fill = gray;
-                LeftYellow.Fill = yellow;
-                LeftRed.Fill = gray;
-
-                RightGreen.Fill = gray; RightYellow.Fill = yellow;
-                RightRed.Fill = gray;
-
-                TopGreen.Fill = gray;
-                TopYellow.Fill = gray;
-                TopRed.Fill = red;
-
-                BottomGreen.Fill = gray;
-                BottomYellow.Fill = gray;
-                BottomRed.Fill = red;*/
+              
 
                 currentState = state.EASTWESTSTOP;
             }
