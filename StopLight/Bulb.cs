@@ -9,4 +9,6 @@ public partial class Bulb
     SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
     //This will make the light turn green
 
+
+
 }
