@@ -15,8 +15,8 @@ Fill="LightGray"
 Height="36"
 Width="39"
 StrokeThickness="2"
- Stroke="Black" Canvas.Top="51"/>
-                <Ellipse x:Name="LeftRed"
+Stroke="Black" Canvas.Top="51"/>
+            <Ellipse x:Name="LeftRed"
 Fill="LightGray"
 Height="36"
 Width="39"
@@ -33,7 +33,7 @@ Stroke="Black" Canvas.Top="92"/>
             <Ellipse x:Name="RightYellow"
 Fill="LightGray"
 Height="36"
- Width="39"
+Width="39"
 StrokeThickness="2"
 Stroke="Black" Canvas.Top="51"/>
                 <Ellipse x:Name="RightRed"

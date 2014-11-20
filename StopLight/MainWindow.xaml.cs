@@ -12,56 +12,123 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
+using System.Threading;
 
 namespace StopLight
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {   
-        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        int iLeftRight;
-        public MainWindow()
-        {
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
+{
+System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+int iLeftRight;
 
-            SolidColorBrush red = new SolidColorBrush(Colors.Red);
-            SolidColorBrush green = new SolidColorBrush(Colors.Green);
-            SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
-            SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
-            InitializeComponent();
+public MainWindow()
+{
+InitializeComponent();
 
-            
-            iLeftRight = 0;
+iLeftRight = 0;
 
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
-            dispatcherTimer.Start();
-            if (iLeftRight == 0)
-            {
-                LeftGreen.Fill = gray;
-                LeftYellow.Fill = gray;
-                LeftRed.Fill = red;
+dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+dispatcherTimer.Start();
+}
 
-                //RightGreen.Fill =
-            }
-        }
-        
+private void dispatcherTimer_Tick(object sender, EventArgs e)
+{
+SolidColorBrush red = new SolidColorBrush(Colors.Red);
+SolidColorBrush green = new SolidColorBrush(Colors.Green);
+SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
+SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
 
-            private void dispatcherTimer_Tick(object sender, EventArgs e)
-                {
-                SolidColorBrush red = new SolidColorBrush(Colors.Red);
-                SolidColorBrush green = new SolidColorBrush(Colors.Green);
-                SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
-                SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
+if (iLeftRight == 0)
+{
+LeftGreen.Fill = gray;
+LeftYellow.Fill = gray;
+LeftRed.Fill = red;
 
-                //put your code here
-                }
+RightGreen.Fill = gray;
+RightYellow.Fill = gray;
+RightRed.Fill = red;
 
-            private void btnleft_Click(object sender, RoutedEventArgs e)
-            {
+TopGreen.Fill = green;
+TopYellow.Fill = gray;
+TopRed.Fill = gray; 
 
-            }
-        }
-    }
+BottomGreen.Fill = green;
+BottomYellow.Fill = gray;
+BottomRed.Fill = gray;
 
+iLeftRight = 1;
+}
+else if (iLeftRight == 1)
+{
+LeftGreen.Fill = gray;
+LeftYellow.Fill = gray;
+LeftRed.Fill = red;
+
+RightGreen.Fill = gray;
+RightYellow.Fill = gray;
+RightRed.Fill = red;
+
+TopGreen.Fill = gray;
+TopYellow.Fill = yellow;
+TopRed.Fill = gray;
+
+BottomGreen.Fill = gray;
+BottomYellow.Fill = yellow;
+BottomRed.Fill = gray;
+
+iLeftRight = 2;
+}
+else if (iLeftRight == 2)
+{
+LeftGreen.Fill = green;
+LeftYellow.Fill = gray;
+LeftRed.Fill = gray;
+
+RightGreen.Fill = green;
+RightYellow.Fill = gray;
+RightRed.Fill = gray;
+
+TopGreen.Fill = gray;
+TopYellow.Fill = gray;
+TopRed.Fill = red;
+
+BottomGreen.Fill = gray;
+BottomYellow.Fill = gray;
+BottomRed.Fill = red;
+
+iLeftRight = 3;
+}
+else if (iLeftRight == 3)
+{
+LeftGreen.Fill = gray;
+LeftYellow.Fill = yellow;
+LeftRed.Fill = gray;
+
+RightGreen.Fill = gray; RightYellow.Fill = yellow;
+RightRed.Fill = gray;
+
+TopGreen.Fill = gray;
+TopYellow.Fill = gray;
+TopRed.Fill = red;
+
+BottomGreen.Fill = gray;
+BottomYellow.Fill = gray;
+BottomRed.Fill = red;
+
+iLeftRight = 0;
+}
+}
+
+private void btnleft_Click(object sender, RoutedEventArgs e)
+{
+dispatcherTimer.IsEnabled = false;
+iLeftRight = 2;
+dispatcherTimer.IsEnabled = true;
+}
+}
+}
