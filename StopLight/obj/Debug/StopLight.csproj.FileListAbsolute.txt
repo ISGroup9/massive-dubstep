@@ -21,3 +21,4 @@ C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\bin\Debug\StopLight.e
 C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\bin\Debug\StopLight.pdb
 C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\obj\Debug\StopLight.exe
 C:\Users\Landon\Documents\GitHub\massive-dubstep\StopLight\obj\Debug\StopLight.pdb
+C:\Users\Taylor\Documents\GitHub\massive-dubstep\StopLight\bin\Debug\StopLight.exe.config
