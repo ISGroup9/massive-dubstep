@@ -1,8 +1,13 @@
-﻿public partial class StreetLight
+﻿using StopLight;
+using System.Windows.Shapes;
+public partial class StreetLight
 {
-    Bulb GreenLight = new Bulb();
-    Bulb YellowLight = new Bulb();
-    Bulb RedLight = new Bulb();
+
+    private Bulb greenLight;
+    private Bulb yellowLight;
+    private Bulb redLight;
+    private TurnArrow rightTurnArrow;
+    private TurnArrow leftTurnArrow;
 
     public void TurnGreen()
     {
@@ -10,6 +15,11 @@
     }
 
     public void TurnRed()
+    {
+
+    }
+
+    public StreetLight(Ellipse green, Ellipse yellow, Ellipse red)
     {
 
     }
