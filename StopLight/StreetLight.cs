@@ -9,11 +9,6 @@
 
     }
 
-    public void TurnYellow()
-    {
-
-    }
-
     public void TurnRed()
     {
 
