@@ -25,6 +25,8 @@ namespace StopLight
         public MainWindow()
         {
 
+            //I AM TESTING GIT. - Taylor
+
             SolidColorBrush red = new SolidColorBrush(Colors.Red);
             SolidColorBrush green = new SolidColorBrush(Colors.Green);
             SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
