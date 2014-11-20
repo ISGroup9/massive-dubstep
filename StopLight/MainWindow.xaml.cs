@@ -14,121 +14,200 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 using System.Threading;
+using System.Diagnostics;
+
+public enum color { RED, GREEN };
 
 namespace StopLight
+
 {
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
-{
-System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-int iLeftRight;
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    /// 
+    enum state {NORTHSOUTHGO, NORTHSOUTHSTOP, EASTWESTGO, EASTWESTSTOP};
+    //enum color {RED, GREEN};
+    public partial class MainWindow : Window
+    {
+        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        //int iLeftRight;
 
-public MainWindow()
-{
-InitializeComponent();
+        StreetLight WestLight;
+        StreetLight NorthLight;
+        StreetLight EastLight;
+        StreetLight SouthLight;
 
-iLeftRight = 0;
+        state currentState;
 
-dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
-dispatcherTimer.Start();
-}
+        public MainWindow()
+        {
+            InitializeComponent();
+            currentState = state.NORTHSOUTHGO;
+            if (currentState == state.NORTHSOUTHGO)
+            {
+                WestLight = new StreetLight(LeftGreen, LeftYellow, LeftRed, color.RED);
+                NorthLight = new StreetLight(TopGreen, TopYellow, TopRed, color.GREEN);
+                EastLight = new StreetLight(RightGreen, RightYellow, RightRed, color.RED);
+                SouthLight = new StreetLight(BottomGreen, BottomYellow, BottomRed, color.GREEN);
+            }
+            else throw new System.InvalidOperationException("startState must be NorthSouthGo");
 
-private void dispatcherTimer_Tick(object sender, EventArgs e)
-{
-SolidColorBrush red = new SolidColorBrush(Colors.Red);
-SolidColorBrush green = new SolidColorBrush(Colors.Green);
-SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
-SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
+            
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Start();
+        }
 
-if (iLeftRight == 0)
-{
-LeftGreen.Fill = gray;
-LeftYellow.Fill = gray;
-LeftRed.Fill = red;
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            /*SolidColorBrush red = new SolidColorBrush(Colors.Red);
+            SolidColorBrush green = new SolidColorBrush(Colors.Green);
+            SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
+            SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);*/
 
-RightGreen.Fill = gray;
-RightYellow.Fill = gray;
-RightRed.Fill = red;
+            if (currentState == state.EASTWESTSTOP)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": ");
+                Debug.WriteLine(currentState);
+                NorthSouthGo();
+               /* LeftGreen.Fill = gray;
+                LeftYellow.Fill = gray;
+                LeftRed.Fill = red;
 
-TopGreen.Fill = green;
-TopYellow.Fill = gray;
-TopRed.Fill = gray; 
+                RightGreen.Fill = gray;
+                RightYellow.Fill = gray;
+                RightRed.Fill = red;
 
-BottomGreen.Fill = green;
-BottomYellow.Fill = gray;
-BottomRed.Fill = gray;
+                TopGreen.Fill = green;
+                TopYellow.Fill = gray;
+                TopRed.Fill = gray;
 
-iLeftRight = 1;
-}
-else if (iLeftRight == 1)
-{
-LeftGreen.Fill = gray;
-LeftYellow.Fill = gray;
-LeftRed.Fill = red;
+                BottomGreen.Fill = green;
+                BottomYellow.Fill = gray;
+                BottomRed.Fill = gray;*/
 
-RightGreen.Fill = gray;
-RightYellow.Fill = gray;
-RightRed.Fill = red;
+                currentState = state.NORTHSOUTHGO;
+            }
+            else if (currentState == state.NORTHSOUTHGO)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": ");
+                Debug.WriteLine(currentState);
+                NorthSouthStop();
+                /*LeftGreen.Fill = gray;
+                LeftYellow.Fill = gray;
+                LeftRed.Fill = red;
 
-TopGreen.Fill = gray;
-TopYellow.Fill = yellow;
-TopRed.Fill = gray;
+                RightGreen.Fill = gray;
+                RightYellow.Fill = gray;
+                RightRed.Fill = red;
 
-BottomGreen.Fill = gray;
-BottomYellow.Fill = yellow;
-BottomRed.Fill = gray;
+                TopGreen.Fill = gray;
+                TopYellow.Fill = yellow;
+                TopRed.Fill = gray;
 
-iLeftRight = 2;
-}
-else if (iLeftRight == 2)
-{
-LeftGreen.Fill = green;
-LeftYellow.Fill = gray;
-LeftRed.Fill = gray;
+                BottomGreen.Fill = gray;
+                BottomYellow.Fill = yellow;
+                BottomRed.Fill = gray;*/
 
-RightGreen.Fill = green;
-RightYellow.Fill = gray;
-RightRed.Fill = gray;
+                currentState = state.NORTHSOUTHSTOP;
+            }
+            else if (currentState == state.NORTHSOUTHSTOP)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": ");
+                Debug.WriteLine(currentState);
+                WestEastGo();
+                /*LeftGreen.Fill = green;
+                LeftYellow.Fill = gray;
+                LeftRed.Fill = gray;
 
-TopGreen.Fill = gray;
-TopYellow.Fill = gray;
-TopRed.Fill = red;
+                RightGreen.Fill = green;
+                RightYellow.Fill = gray;
+                RightRed.Fill = gray;
 
-BottomGreen.Fill = gray;
-BottomYellow.Fill = gray;
-BottomRed.Fill = red;
+                TopGreen.Fill = gray;
+                TopYellow.Fill = gray;
+                TopRed.Fill = red;
 
-iLeftRight = 3;
-}
-else if (iLeftRight == 3)
-{
-LeftGreen.Fill = gray;
-LeftYellow.Fill = yellow;
-LeftRed.Fill = gray;
+                BottomGreen.Fill = gray;
+                BottomYellow.Fill = gray;
+                BottomRed.Fill = red;*/
 
-RightGreen.Fill = gray; RightYellow.Fill = yellow;
-RightRed.Fill = gray;
+                currentState = state.EASTWESTGO;
+            }
+            else if (currentState == state.EASTWESTGO)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": State:");
+                Debug.WriteLine(currentState);
+                WestEastStop();
+                /*LeftGreen.Fill = gray;
+                LeftYellow.Fill = yellow;
+                LeftRed.Fill = gray;
 
-TopGreen.Fill = gray;
-TopYellow.Fill = gray;
-TopRed.Fill = red;
+                RightGreen.Fill = gray; RightYellow.Fill = yellow;
+                RightRed.Fill = gray;
 
-BottomGreen.Fill = gray;
-BottomYellow.Fill = gray;
-BottomRed.Fill = red;
+                TopGreen.Fill = gray;
+                TopYellow.Fill = gray;
+                TopRed.Fill = red;
 
-iLeftRight = 0;
-}
-}
+                BottomGreen.Fill = gray;
+                BottomYellow.Fill = gray;
+                BottomRed.Fill = red;*/
 
-private void btnleft_Click(object sender, RoutedEventArgs e)
-{
-dispatcherTimer.IsEnabled = false;
-iLeftRight = 2;
-dispatcherTimer.IsEnabled = true;
-}
-}
+                currentState = state.EASTWESTSTOP;
+            }
+        }
+
+        private void WestEastStop()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("WestEastStop");
+            EastLight.TurnRed();
+            WestLight.TurnRed();
+            
+        }
+
+        private void NorthSouthStop()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("NorthSouthStop");
+            NorthLight.TurnRed();
+            SouthLight.TurnRed();
+           
+        }
+
+        private void WestEastGo()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("WestEastGo");
+            EastLight.TurnGreen();
+            WestLight.TurnGreen();
+     
+        }
+
+        private void NorthSouthGo()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("NorthSouthGo");
+            NorthLight.TurnGreen();
+            SouthLight.TurnGreen();
+         
+        }
+
+        private void btnleft_Click(object sender, RoutedEventArgs e)
+        {
+            dispatcherTimer.IsEnabled = false;
+            NorthSouthStop();
+            currentState = state.NORTHSOUTHSTOP;
+            dispatcherTimer.IsEnabled = true;
+        }
+    }
 }
