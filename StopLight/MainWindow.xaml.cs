@@ -25,7 +25,7 @@ namespace StopLight
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    enum state {NORTHSOUTHGO, NORTHSOUTHSTOP, EASTWESTGO, EASTWESTSTOP};
+    enum state {DEFAULTSOUTHGO, SOUTHSTOP, EASTWESTGO, EASTWESTSTOP,NORTHGO,NORTHSTOP,ALLSTOP};
     //enum color {RED, GREEN};
     public partial class MainWindow : Window
     {
@@ -42,11 +42,11 @@ namespace StopLight
         public MainWindow()
         {
             InitializeComponent();
-            currentState = state.NORTHSOUTHGO;
-            if (currentState == state.NORTHSOUTHGO)
+            currentState = state.DEFAULTSOUTHGO;
+            if (currentState == state.DEFAULTSOUTHGO)
             {
                 WestLight = new StreetLight(LeftGreen, LeftYellow, LeftRed, color.RED);
-                NorthLight = new StreetLight(TopGreen, TopYellow, TopRed, color.GREEN);
+                NorthLight = new StreetLight(TopGreen, TopYellow, TopRed, color.RED);
                 EastLight = new StreetLight(RightGreen, RightYellow, RightRed, color.RED);
                 SouthLight = new StreetLight(BottomGreen, BottomYellow, BottomRed, color.GREEN);
             }
@@ -70,10 +70,32 @@ namespace StopLight
 
 
 
-                NorthSouthGo();
-                currentState = state.NORTHSOUTHGO;
+                NorthGo();
+                currentState = state.NORTHGO;
             }
-            else if (currentState == state.NORTHSOUTHGO)
+
+            else if (currentState == state.NORTHGO)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": ");
+                Debug.WriteLine(currentState);
+
+                NorthStop();
+                currentState = state.NORTHSTOP;
+            }
+
+            else if (currentState == state.NORTHSTOP)
+            {
+                Debug.Write(DateTime.Now);
+                Debug.Write(": ");
+                Debug.WriteLine(currentState);
+
+                SouthGo();
+                currentState = state.DEFAULTSOUTHGO;
+
+            }
+
+            else if (currentState == state.DEFAULTSOUTHGO)
             {
                 Debug.Write(DateTime.Now);
                 Debug.Write(": ");
@@ -82,10 +104,10 @@ namespace StopLight
 
 
 
-                NorthSouthStop();
-                currentState = state.NORTHSOUTHSTOP;
+                SouthStop();
+                currentState = state.SOUTHSTOP;
             }
-            else if (currentState == state.NORTHSOUTHSTOP)
+            else if (currentState == state.SOUTHSTOP)
             {
                 Debug.Write(DateTime.Now);
                 Debug.Write(": ");
@@ -117,14 +139,26 @@ namespace StopLight
             
         }
 
-        private void NorthSouthStop()
+        private void SouthStop()
         {
             Debug.Write(DateTime.Now);
             Debug.Write(": ");
-            Debug.WriteLine("NorthSouthStop");
-            NorthLight.TurnRed();
+            Debug.WriteLine("SouthStop");
             SouthLight.TurnRed();
+
+            currentState = state.SOUTHSTOP;
            
+        }
+
+        private void NorthStop()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("NorthStop");
+            NorthLight.TurnRed();
+
+            currentState = state.NORTHSTOP;
+
         }
 
         private void WestEastGo()
@@ -137,21 +171,32 @@ namespace StopLight
      
         }
 
-        private void NorthSouthGo()
+        private void NorthGo()
         {
             Debug.Write(DateTime.Now);
             Debug.Write(": ");
-            Debug.WriteLine("NorthSouthGo");
+            Debug.WriteLine("NorthGo");
             NorthLight.TurnGreen();
-            SouthLight.TurnGreen();
+
+
+            currentState = state.NORTHGO;
          
+        }
+
+        private void SouthGo()
+        {
+            Debug.Write(DateTime.Now);
+            Debug.Write(": ");
+            Debug.WriteLine("SouthGo");
+            SouthLight.TurnGreen();
+            currentState = state.DEFAULTSOUTHGO;
         }
 
         private void btnleft_Click(object sender, RoutedEventArgs e)
         {
             dispatcherTimer.IsEnabled = false;
-            NorthSouthStop();
-            currentState = state.NORTHSOUTHSTOP;
+            SouthStop();
+            currentState = state.SOUTHSTOP;
             dispatcherTimer.IsEnabled = true;
         }
     }
