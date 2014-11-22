@@ -86,7 +86,7 @@ Stroke="Black" Canvas.Top="10"/>
         <Button x:Name="westCar" Content="Car Stops" HorizontalAlignment="Left" Margin="35,295,0,0" VerticalAlignment="Top" Width="75" Click="btnleft_Click"/>
         <Button x:Name="southCar" Content="Car Stops" HorizontalAlignment="Left" Margin="279,313,0,0" VerticalAlignment="Top" Width="75"/>
         <Label Content="{Binding iLeftRight, ElementName=Main}" HorizontalAlignment="Left" Margin="228,217,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="northCar" Content="Car Stops" HorizontalAlignment="Left" Margin="148,68,0,0" VerticalAlignment="Top" Width="75" Click="btnleft_Click"/>
+        <Button x:Name="northCar" Content="Car Stops" HorizontalAlignment="Left" Margin="148,68,0,0" VerticalAlignment="Top" Width="75" Click="CarAtNorth"/>
         <Button x:Name="eastCar" Content="Car Stops" HorizontalAlignment="Left" Margin="414,120,0,0" VerticalAlignment="Top" Width="75" Click="btnleft_Click"/>
 
     </Grid>

@@ -30,12 +30,18 @@ namespace StopLight
     public partial class MainWindow : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer northTimer = new System.Windows.Threading.DispatcherTimer();
         //int iLeftRight;
 
         StreetLight WestLight;
         StreetLight NorthLight;
         StreetLight EastLight;
         StreetLight SouthLight;
+
+        int carsAtWest = 0;
+        int carsAtNorth = 0;
+        int carsAtEast = 0;
+        int carsAtSouth = 0;
 
         state currentState;
 
@@ -50,7 +56,7 @@ namespace StopLight
                 EastLight = new StreetLight(RightGreen, RightYellow, RightRed, color.RED);
                 SouthLight = new StreetLight(BottomGreen, BottomYellow, BottomRed, color.GREEN);
             }
-            else throw new System.InvalidOperationException("startState must be NorthSouthGo");
+            else throw new System.InvalidOperationException("startState must be SouthGo");
 
             
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -194,10 +200,37 @@ namespace StopLight
 
         private void btnleft_Click(object sender, RoutedEventArgs e)
         {
+
             dispatcherTimer.IsEnabled = false;
             SouthStop();
             currentState = state.SOUTHSTOP;
             dispatcherTimer.IsEnabled = true;
+        }
+
+        private void CarAtNorth(object sender, RoutedEventArgs e)
+        {
+            carsAtNorth += 1;
+            System.Windows.Threading.DispatcherTimer northTimer = new System.Windows.Threading.DispatcherTimer();
+            northTimer.Tick += new EventHandler(northTimer_Tick);
+            northTimer.Interval = new TimeSpan(0, 0, 5);
+            northTimer.Start();
+            StopAll();
+            NorthGo();
+
+        }
+
+        private void northTimer_Tick(object sender, EventArgs e)
+        {
+            if(carsAtSouth==0 & carsAtWest ==0 & carsAtEast ==0)
+            {
+                StopAll();
+            }
+            northTimer.Stop();
+        }
+
+        private void StopAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

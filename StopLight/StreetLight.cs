@@ -50,8 +50,11 @@ public partial class StreetLight
     {
         dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
-        GoYellow();
-        dispatcherTimer.Start();
+        if (isGreen())
+        {
+            GoYellow();
+            dispatcherTimer.Start();
+        }
 
         
     }
@@ -60,6 +63,11 @@ public partial class StreetLight
 
         GoRed();
         dispatcherTimer.Stop();
+    }
+
+    private bool isGreen()
+    {
+        return greenLight.Fill == green;
     }
 
     private void GoRed()
