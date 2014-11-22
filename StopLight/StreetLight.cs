@@ -18,6 +18,7 @@ public partial class StreetLight
     SolidColorBrush green = new SolidColorBrush(Colors.Green);
     SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
     SolidColorBrush gray = new SolidColorBrush(Colors.LightGray);
+    Sensor sensor = new Sensor();
 
     public StreetLight(Ellipse green, Ellipse yellow, Ellipse red, color startingColor)
     {
