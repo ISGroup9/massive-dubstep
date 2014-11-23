@@ -30,11 +30,10 @@ namespace StopLight
     public partial class MainWindow : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        System.Windows.Threading.DispatcherTimer northTimer = new System.Windows.Threading.DispatcherTimer();
-        System.Windows.Threading.DispatcherTimer southTimer = new System.Windows.Threading.DispatcherTimer();
-        System.Windows.Threading.DispatcherTimer eastWestTimer = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer waitTimer = new System.Windows.Threading.DispatcherTimer();
         System.Windows.Threading.DispatcherTimer stopTimer = new System.Windows.Threading.DispatcherTimer();
-        //int iLeftRight;
+        Stopwatch timer = new Stopwatch();
+   
 
         StreetLight WestLight;
         StreetLight NorthLight;
@@ -45,9 +44,14 @@ namespace StopLight
         int carsAtNorth = 0;
         int carsAtEast = 0;
         int carsAtSouth = 0;
+        int carsAtWestTemp = 0;
+        int carsAtNorthTemp = 0;
+        int carsAtEastTemp = 0;
+        int carsAtSouthTemp = 0;
 
         state currentState;
         state desiredState;
+        state pastState = state.ALLSTOP;
 
         public MainWindow()
         {
@@ -64,28 +68,18 @@ namespace StopLight
 
             
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
-            dispatcherTimer.Start();
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            waitTimer.Tick += new EventHandler(waitTimer_Tick);
+            waitTimer.Interval = new TimeSpan(0, 0, 5);
+            stopTimer.Tick += new EventHandler(stopTimer_Tick);
+            stopTimer.Interval = new TimeSpan(0, 0, 5);
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (carsAtSouth > 0)
-            {
-                desiredState = state.DEFAULTSOUTHGO;
-                StopAll();
-            }
-            else if (carsAtEast > 0 || carsAtWest > 0)
-            {
-                desiredState = state.EASTWESTGO;
-                StopAll();
-            }
-
-            else if (carsAtNorth > 0)
-            {
-                desiredState = state.NORTHGO;
-                StopAll();
-            }
+            
+            everyFiveSecondsWhileCars();
+            
 
             /*else if (currentState == state.EASTWESTSTOP)
             {
@@ -153,40 +147,102 @@ namespace StopLight
             }*/
         }
 
-        private void WestEastStop()
+        private void everyFiveSecondsWhileCars()
         {
-            Debug.Write(DateTime.Now);
-            Debug.Write(": ");
-            Debug.WriteLine("WestEastStop");
-            EastLight.TurnRed();
-            WestLight.TurnRed();
 
-            currentState = state.EASTWESTSTOP;
-            
+            if (currentState != pastState)
+            {
+                
+                timer.Restart();
+
+            }
+            pastState = currentState;
+
+            if (carsAtSouthTemp > 0)
+            {
+                carsAtSouthTemp = 0;
+
+                if (currentState == state.DEFAULTSOUTHGO)
+                {
+                    /*if (timer.Elapsed > new TimeSpan(0,0,30))
+                    {
+
+                        everyFiveSecondsWhileCars();
+                        return;
+                    }*/
+                }
+                else
+                {
+                    desiredState = state.DEFAULTSOUTHGO;
+                    StopAllAndGo();
+                }
+            }
+            else if (carsAtEastTemp > 0 || carsAtWestTemp > 0)
+            {
+                
+                carsAtEastTemp = 0;
+                
+                carsAtWestTemp = 0;
+                if (currentState == state.EASTWESTGO)
+                {
+                    /*if (timer.Elapsed > new TimeSpan(0,0,30))
+                    {
+                        everyFiveSecondsWhileCars();
+
+                        return;
+                    }*/
+                }
+                else
+                {
+                    desiredState = state.EASTWESTGO;
+                    StopAllAndGo();
+                }
+            }
+
+            else if (carsAtNorthTemp > 0)
+            {
+                carsAtNorthTemp = 0;
+                if (currentState == state.NORTHGO)
+                {
+                   //if (timer.Elapsed > new TimeSpan(0,0,30))
+                   // {
+                   //     everyFiveSecondsWhileCars();
+
+                   //     return;
+                   // }
+                }
+                else
+                {
+
+
+                    desiredState = state.NORTHGO;
+                    StopAllAndGo();
+                }
+            }
+            else if (!isAnyCarsWaiting())
+            {
+                timer.Stop();
+                if (currentState == state.DEFAULTSOUTHGO)
+                {
+
+                }
+                else
+                {
+                    desiredState = state.DEFAULTSOUTHGO;
+                    StopAllAndGo();
+                }
+                dispatcherTimer.Stop();
+            }
+            else
+            {
+                copyCarsToTemp();
+                everyFiveSecondsWhileCars();
+                return;
+
+            }
         }
 
-        private void SouthStop()
-        {
-            Debug.Write(DateTime.Now);
-            Debug.Write(": ");
-            Debug.WriteLine("SouthStop");
-            SouthLight.TurnRed();
-
-            currentState = state.SOUTHSTOP;
-           
-        }
-
-        private void NorthStop()
-        {
-            Debug.Write(DateTime.Now);
-            Debug.Write(": ");
-            Debug.WriteLine("NorthStop");
-            NorthLight.TurnRed();
-            
-
-            currentState = state.NORTHSTOP;
-
-        }
+       
 
         private void WestEastGo()
         {
@@ -198,6 +254,7 @@ namespace StopLight
             carsAtEast = 0;
             carsAtWest = 0;
             currentState = state.EASTWESTGO;
+            rightarrow.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void NorthGo()
@@ -209,7 +266,7 @@ namespace StopLight
 
             carsAtNorth = 0;
             currentState = state.NORTHGO;
-            dispatcherTimer.Start();
+           
          
         }
 
@@ -222,6 +279,8 @@ namespace StopLight
 
             carsAtSouth = 0;
             currentState = state.DEFAULTSOUTHGO;
+            leftarrow.Visibility = System.Windows.Visibility.Visible;
+            rightarrow.Visibility = System.Windows.Visibility.Visible;
         }
 
 
@@ -229,15 +288,17 @@ namespace StopLight
 
 
 
-        private void StopAll()
+        private void StopAllAndGo()
         {
+            dispatcherTimer.Stop();
             currentState = state.ALLSTOP;
             NorthLight.TurnRed();
             SouthLight.TurnRed();
             EastLight.TurnRed();
             WestLight.TurnRed();
-            stopTimer.Tick += new EventHandler(stopTimer_Tick);
-            stopTimer.Interval = new TimeSpan(0, 0, 5);
+            rightarrow.Visibility = System.Windows.Visibility.Hidden;
+            leftarrow.Visibility = System.Windows.Visibility.Hidden;
+            
             stopTimer.Start();
         }
 
@@ -259,44 +320,135 @@ namespace StopLight
                 }
             }
             stopTimer.Stop();
+            dispatcherTimer.Start();
         }
 
         private void CarAtWest(object sender, RoutedEventArgs e)
         {
+            if (isAnyCarsWaiting())
+            {
+                if (currentState == state.EASTWESTGO)
+                {
+                    if (timer.Elapsed < new TimeSpan(0, 0, 30))
+                    {
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Start();
+                    }
 
+                } else
+                carsAtWest += 1;
+            }
+            else
+            {
+                carsAtWest += 1;
+                WaitFiveSeconds();
+            }
         }
 
         private void CarAtEast(object sender, RoutedEventArgs e)
         {
+            if (isAnyCarsWaiting())
+            {
+                if (currentState == state.EASTWESTGO)
+                {
+                    if (timer.Elapsed < new TimeSpan(0, 0, 30))
+                    {
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Start();
+                    }
 
+                } else
+                carsAtEast += 1;
+            }
+            else
+            {
+                carsAtEast += 1;
+                WaitFiveSeconds();
+            }
         }
 
         private void CarAtSouth(object sender, RoutedEventArgs e)
         {
+            if (isAnyCarsWaiting())
+            {
+                if (currentState == state.DEFAULTSOUTHGO)
+                {
+                    if (timer.Elapsed < new TimeSpan(0, 0, 30))
+                    {
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Start();
+                    }
 
+                } else
+                carsAtSouth += 1;
+            }
+            else
+            {
+                carsAtSouth += 1;
+                WaitFiveSouthSeconds();
+            }
         }
 
         private void CarAtNorth(object sender, RoutedEventArgs e)
         {
-            carsAtNorth += 1;
-
-            if (carsAtNorth == 1)
+            if (isAnyCarsWaiting())
             {
-                northTimer.Tick += new EventHandler(northTimer_Tick);
-                northTimer.Interval = new TimeSpan(0, 0, 5);
-                northTimer.Start();
+                if (currentState == state.NORTHGO)
+                {
+                    if (timer.Elapsed < new TimeSpan(0, 0, 25))
+                    {
+                        dispatcherTimer.Stop();
+                        dispatcherTimer.Start();
+                    }
+
+                } else carsAtNorth += 1;
+            }
+            else
+            {
+                carsAtNorth += 1;
+                WaitFiveSeconds();
             }
 
         }
-        private void northTimer_Tick(object sender, EventArgs e)
+
+        private void WaitFiveSouthSeconds()
         {
-            if (carsAtSouth == 0 && carsAtWest == 0 && carsAtEast == 0 && carsAtNorth > 0)
+            if (currentState == state.DEFAULTSOUTHGO)
             {
-                StopAll();
-                desiredState = state.NORTHGO;
+
             }
-            northTimer.Stop();
+            else waitTimer.Start();
         }
+
+        private void WaitFiveSeconds()
+        {
+            waitTimer.Start();
+        }
+
+        private bool isAnyCarsWaiting()
+        {
+            return Convert.ToBoolean(carsAtSouth + carsAtNorth + carsAtWest + carsAtEast);
+        }
+        private void waitTimer_Tick(object sender, EventArgs e)
+        {
+            waitTimer.Stop();
+            copyCarsToTemp();
+
+
+            dispatcherTimer.Start();
+            everyFiveSecondsWhileCars();
+            
+            
+        }
+
+        private void copyCarsToTemp()
+        {
+            carsAtEastTemp = carsAtEast;
+            carsAtNorthTemp = carsAtNorth;
+            carsAtSouthTemp = carsAtSouth;
+            carsAtWestTemp = carsAtWest;
+        }
+ 
 
 
 
