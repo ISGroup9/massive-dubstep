@@ -12,8 +12,6 @@ public partial class StreetLight
     private Ellipse greenLight;
     private Ellipse yellowLight;
     private Ellipse redLight;
-    private TurnArrow rightTurnArrow;
-    private TurnArrow leftTurnArrow;
     SolidColorBrush red = new SolidColorBrush(Colors.Red);
     SolidColorBrush green = new SolidColorBrush(Colors.Green);
     SolidColorBrush yellow = new SolidColorBrush(Colors.Yellow);
@@ -34,13 +32,6 @@ public partial class StreetLight
             GoRed();
         } else throw new System.ArgumentException("StreetLights can only be green or red on start");
     }
-
-    /*public StreetLight(Ellipse green, Ellipse yellow, Ellipse red)
-    {
-        greenLight = green;
-        yellowLight = yellow;
-        redLight = red;
-    }*/
 
     public void TurnGreen()
     {
